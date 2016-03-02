@@ -1,0 +1,7 @@
+[user]
+	name = Denis Kurilov
+	email = denis.kourilov@gmail.com
+[core]
+	excludesfile = /home/dkourilov/.gitignore_global
+[push]
+	default = simple

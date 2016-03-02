@@ -1,0 +1,46 @@
+os_mac() {
+    [[ $OSTYPE == darwin* ]]
+}
+
+if os_mac; then
+    export PATH=/usr/local/bin:/usr/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin:/opt/X11/bin¬
+    ¬
+    # bash autocompletion¬
+    if [ -f `brew --prefix`/etc/bash_completion ]; then¬
+        . `brew --prefix`/etc/bash_completion¬
+    fi¬
+fi
+
+# Eternal bash history, requires bash 4.3 
+export HISTFILESIZE=
+export HISTSIZE=
+export HISTTIMEFORMAT="[%F %T] "
+export HISTFILE=~/.bash_eternal_history
+export HISTIGNORE="&:bg:fg:ll:h"
+export HISTCONTROL=ignoredups
+PROMPT_COMMAND="history -a; $PROMPT_COMMAND"
+
+export TERM=screen-256color
+
+color_reset=$(tput sgr 0)
+# non-printable bytes must be wrapped with \[\]
+PS1="\[$(tput setaf 180)\]\h\[${color_reset}$(tput setaf 210)\] \w\[${color_reset}\] $ "
+
+export LC_ALL=en_US.UTF-8
+export LANG=en_US.UTF-8
+export LANGUAGE=en_US.UTF-8
+
+# set up colors
+export LESS="--RAW-CONTROL-CHARS"
+[[ -f ~/.LESS_TERMCAP ]] && . ~/.LESS_TERMCAP
+export GREP_OPTIONS="--color=auto"
+
+# aliases
+if ! os_mac; then
+    export CLICOLOR=1¬
+    export LS_OPTS='--color=auto'
+    alias ls='ls ${LS_OPTS}'
+fi
+
+alias ll='ls -Glah'
+
