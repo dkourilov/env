@@ -42,13 +42,19 @@ set mouse=a
 set clipboard=unnamed
 
 " iterm2: change cursor shape on insert/normal
-let &t_SI = "\<Esc>]50;CursorShape=1\x7" " Vertical bar in insert mode
-let &t_EI = "\<Esc>]50;CursorShape=0\x7" " Block in normal mode
+if exists('$TMUX')
+    " @see https://gist.github.com/andyfowler/1195581
+    let &t_SI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=1\x7\<Esc>\\"
+    let &t_EI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=0\x7\<Esc>\\"
+else
+    let &t_SI = "\<Esc>]50;CursorShape=1\x7"
+    let &t_EI = "\<Esc>]50;CursorShape=0\x7"
+endif
 
 syntax on
 
-"colorscheme Tomorrow
-colorscheme Tomorrow-Night-Eighties
+let g:sierra_Campfire = 1
+colorscheme sierra
 
 execute pathogen#infect()
 let g:airline_powerline_fonts = 1
@@ -72,3 +78,4 @@ let g:neocomplete#sources#syntax#min_keyword_length = 3
 let g:gitgutter_realtime = 1
 let g:gitgutter_eager = 1
 
+" airline.vim
