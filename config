@@ -1,6 +1,0 @@
-Host *
-   ForwardAgent yes
-
-RemoteForward 8377 localhost:8377
-ServerAliveInterval 120
-TCPKeepAlive no
