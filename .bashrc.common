@@ -3,12 +3,11 @@ os_mac() {
 }
 
 if os_mac; then
-    export PATH=/usr/local/bin:/usr/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin:/opt/X11/bin¬
-    ¬
+    export PATH=/usr/local/bin:/usr/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin:/opt/X11/bin
     # bash autocompletion¬
-    if [ -f `brew --prefix`/etc/bash_completion ]; then¬
+    if [ -f `brew --prefix`/etc/bash_completion ]; then
         . `brew --prefix`/etc/bash_completion¬
-    fi¬
+    fi
 fi
 
 # Eternal bash history, requires bash 4.3 

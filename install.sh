@@ -33,9 +33,9 @@ install neocomplete.vim ${dest}/.vim/bundle
 install rainbow_parentheses.vim ${dest}/.vim/bundle
 install scala.vim ${dest}/.vim/bundle
 # vim colors
-install sierra/colors/sierra.vim ${dest}/.vim/colors
+install sierra/colors/sierra.vim ${dest}/.vim/colors/
 # vim pathogen
-install pathogen.vim ${dest}/.vim/autoload
+install pathogen.vim/autoload/pathogen.vim ${dest}/.vim/autoload/
 
 if [[ $OSTYPE == darwin* ]]; then
     install .gitconfig.darwin ${dest}/.gitconfig
