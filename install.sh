@@ -1,47 +1,75 @@
-#!/bin/bash
+#!/bin/bash -ex
 
 dest=${dest:-~}
 
-# usage: install $what $where
-function install 
+function mktree_
 {
-    if [ -d $1 ]; then
-        mkdir -p $2 || true
-    fi
+    test ! -d $1 && mkdir -p $1 || true
+}
+
+function cp_
+{
     /bin/cp -aR $1 $2
 }
 
-# usage: patch $file $str
-function patch
+function err_
 {
-    grep -qsx "$2" $1 || echo "$2" >> $1
+    >&2 echo $1; exit 1
+}
+# usage: install file|dir $src_path to|as $dst_path
+function install
+{
+    type=$1
+    src=$2
+    op=$3
+    dst=$4
+
+    case $type in
+        file) test -f $src || err_ "$src is not a file" ;;
+        dir) test -d $src || err_ "$src is not a directory" ;;
+        *) err_ "Invalid parameter (file|dir)" ;;
+    esac
+
+    case $op in
+        to) mktree_ $dst; cp_ $src $dst ;;
+        as) mktree_ `basename $dst`; cp_ $src $dst ;;
+        *) err_ "Invalid parameter (to|as)" ;;
+    esac
 }
 
-install .ssh ${dest}
+# usage: patch $file with $str
+function patch
+{
+    file=$1
+    str=$3
+    grep -qsx "$file" $str || echo "$str" >> $file
+}
+
+install dir .ssh to ${dest}
 chmod -R 700 ${dest}/.ssh
 
-install .bashrc.common ${dest}
-install .gitignore_global ${dest}
-install .vimrc ${dest}
-install .tmux.conf ${dest}
-install .LESS_TERMCAP ${dest}
+install file .bashrc.common to ${dest}
+install file .gitignore_global to ${dest}
+install file .vimrc to ${dest}
+install file .tmux.conf to ${dest}
+install file .LESS_TERMCAP to ${dest}
 
 # vim plugins
-install airline.vim ${dest}/.vim/bundle
-install gitgutter.vim ${dest}/.vim/bundle
-install neocomplete.vim ${dest}/.vim/bundle
-install rainbow_parentheses.vim ${dest}/.vim/bundle
-install scala.vim ${dest}/.vim/bundle
+install dir airline.vim to ${dest}/.vim/bundle
+install dir gitgutter.vim to ${dest}/.vim/bundle
+install dir neocomplete.vim to ${dest}/.vim/bundle
+install dir rainbow_parentheses.vim to ${dest}/.vim/bundle
+install dir scala.vim to ${dest}/.vim/bundle
 # vim colors
-install sierra/colors/sierra.vim ${dest}/.vim/colors/
+install file sierra/colors/sierra.vim to ${dest}/.vim/colors
 # vim pathogen
-install pathogen.vim/autoload/pathogen.vim ${dest}/.vim/autoload/
+install file pathogen.vim/autoload/pathogen.vim to ${dest}/.vim/autoload/
 
 if [[ $OSTYPE == darwin* ]]; then
-    install .gitconfig.darwin ${dest}/.gitconfig
+    install file .gitconfig.darwin as ${dest}/.gitconfig
 else
-    install .gitconfig.linux-gnu ${dest}/.gitconfig
+    install file .gitconfig.linux-gnu as ${dest}/.gitconfig
 fi
 
-patch ${dest}/.bashrc "source .bashrc.common"
+patch ${dest}/.bashrc with "source .bashrc.common"
 
