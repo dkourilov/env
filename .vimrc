@@ -51,6 +51,13 @@ else
     let &t_EI = "\<Esc>]50;CursorShape=0\x7"
 endif
 
+" Switch buffers <Control-Shift-Arrow>
+if &term =~ '^screen'
+    " needs to be defined in terminal key bindings
+    nnoremap <Esc>[65;5u :bprevious<CR>
+    nnoremap <Esc>[66;5u :bnext<CR>
+endif
+
 syntax on
 
 let g:sierra_Campfire = 1

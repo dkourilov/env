@@ -14,4 +14,14 @@ Or to test local checkout:
     mkdir /tmp/home1
     dest=/tmp/home1 ./install.sh
 
+Notes:
 
+    Mainly optimized for Iterm2/OSX.
+
+    Switching between buffers in Vim is made using <Shift>+<Control>+<Arrow> combination,
+    remapped to <Esc>[65;5u in Iterm2 key mappings.
+
+    Switching between tabs in tmux is done with <Control>+<Arrow>, 
+    remapping to <Right Alt>+<Arrow> is possible with karabiner.
+
+    Vim extensions require PowerLine-enabled font.
