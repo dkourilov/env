@@ -5,6 +5,8 @@ set t_Co=256
 set nocompatible
 set autoread
 
+set hidden
+
 filetype indent plugin on
 
 set wildmenu
@@ -52,10 +54,18 @@ else
 endif
 
 " Switch buffers <Control-Shift-Arrow>
+" Needs defined keystrokes in terminal app:
+" <Control-Shift-LeftArrow>  == <Control-Shift-a>, <Esc>[65;5u
+" <Control-Shift-RightArrow> == <Control-Shift-b>, <Est>[66,5u
 if &term =~ '^screen'
-    " needs to be defined in terminal key bindings
-    nnoremap <Esc>[65;5u :bprevious<CR>
-    nnoremap <Esc>[66;5u :bnext<CR>
+    for prefix in ['n', 'v']
+        exe prefix . "noremap <Esc>[65;5u :bprevious<CR>"
+        exe prefix . "noremap <Esc>[66;5u :bnext<CR>"
+    endfor
+    for prefix in ['i', 'c', 'o']
+        exe prefix . "noremap <Esc>[65;5u <Esc><Esc>:bprevious<CR>"
+        exe prefix . "noremap <Esc>[66;5u <Esc><Esc>:bnext<CR>"
+    endfor
 endif
 
 syntax on
@@ -86,3 +96,14 @@ let g:gitgutter_realtime = 1
 let g:gitgutter_eager = 1
 
 " airline.vim
+
+" indentLine
+let g:indentLine_char = '┆'
+let g:indentLine_color_term = 239
+
+" Unbind shift+arrows in all modes
+for prefix in ['i', 'n', 'v', 'o', 'c']
+    for key in ['<Esc>[67;5u', '<Esc>[68;5u']
+        exe prefix . "noremap " . key . " <Nop>"
+    endfor
+endfor

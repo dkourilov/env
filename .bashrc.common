@@ -3,7 +3,7 @@ os_mac() {
 }
 
 if os_mac; then
-    export PATH=/usr/local/bin:/usr/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin:/opt/X11/bin
+    export PATH=/usr/local/bin:/usr/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin:/opt/X11/bin:/usr/local/opt/llvm/bin
     # bash autocompletion¬
     if [ -f `brew --prefix`/etc/bash_completion ]; then
         . `brew --prefix`/etc/bash_completion
@@ -28,6 +28,10 @@ PS1="\[$(tput setaf 180)\]\h\[${color_reset}$(tput setaf 210)\] \w\[${color_rese
 export LC_ALL=en_US.UTF-8
 export LANG=en_US.UTF-8
 export LANGUAGE=en_US.UTF-8
+
+# shift-arrow word movement, requires terminal key maps for corresponding codes below
+bind '"\e[66;5u": backward-word'
+bind '"\e[68;5u": forward-word'
 
 # set up colors
 export LESS="--RAW-CONTROL-CHARS"
